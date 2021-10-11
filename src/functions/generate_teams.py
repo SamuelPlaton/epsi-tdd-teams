@@ -1,17 +1,13 @@
-from .determineCategory import determine_category
+from .determine_category import determine_category
 import numpy as np
 
-##
-# name: generateTeams
-#
-# parameters :
-# players The array of players to sort
-#
-# description :
-# From an array of players, generated two balanced arrays of players
-##
 def generate_teams(players):
-
+    """generate_teams
+    Return two arrays of players that is the most balancing according to the array given in parameter.
+    :parameter  players   An array of players
+    :return     two arrays of players
+    """
+    # return empty array if no players given
     if len(players) == 0:
         return [[], []]
 
