@@ -6,7 +6,7 @@ def createPlayer():
     fake = Faker()
     id = random.randint(10000, 99999)
     name = fake.name()
-    weight = random.randint(45, 120)
+    weight = random.randint(50, 100)
     experience = random.randint(0, 40)
     player = Player(id, name, weight, experience)
     return player
