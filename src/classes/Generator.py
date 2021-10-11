@@ -1,17 +1,26 @@
-
+from csv import reader
+from classes import Player
 class  Generator:
-    def __init__(self,filePathCsv):
-        self.filePathCsv = filePathCsv
+    def __init__(self, file_path_csv):
+        self.filePathCsv = file_path_csv
         self.list = []
 
 
-    def generatePlayers(self):
+    def generate_players(self):
+        with open(self.filePathCsv, 'r') as read_obj:
+            csv_reader = reader(read_obj)
+            pass_first_line=True
+            i = 1
+            for row in csv_reader:
+                if pass_first_line==True:
+                    pass_first_line=False
+                else:
+                    elems=row[0].split(';')
+                    self.list.append(Player(i,elems[0]+" "+elems[1],elems[2],elems[3]))
+                    i += 1
         return self.list
 
-    def countPlayerList(self):
-        i=0
-        for players in self.list:
-            i+=1
-        return i
+    def count_player_list(self):
+        return len(self.list)
 
 
