@@ -1,3 +1,3 @@
-import Player
-import Team
-import Match
+from .Player import Player
+from .Team import Team
+from .Match import Match
