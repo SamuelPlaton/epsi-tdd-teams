@@ -1,9 +1,9 @@
 """
 Our main file application.
 """
+
 from classes import Match
 from classes import Player
-
 if __name__ == '__main__':
     start = "n"
     while (start != "o"):
