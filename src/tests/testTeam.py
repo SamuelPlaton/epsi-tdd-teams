@@ -1,10 +1,12 @@
 from classes.Team import Team
 from classes.Player import Player
+from .fixtures import create_player
+
 import unittest
 
-from .fixtures import createPlayer
 
-class TeamTestMethods(unittest.TestCase):
+
+class TestTeam(unittest.TestCase):
 
     def test_create_team(self):
         firstTeam = Team()
@@ -17,7 +19,7 @@ class TeamTestMethods(unittest.TestCase):
         self.assertEqual(secondTeam.players, None, "second team players' list must be Null")
         
     def test_add_player(self):
-        player = createPlayer()
+        player = create_player()
         firstTeam = Team()
         firstTeam.players = []
         firstTeam.players.append(player)

@@ -1,4 +1,4 @@
-from .determineCategory import determineCategory
+from .determineCategory import determine_category
 import numpy as np
 
 ##
@@ -10,7 +10,7 @@ import numpy as np
 # description :
 # From an array of players, generated two balanced arrays of players
 ##
-def generateTeams(players):
+def generate_teams(players):
 
     if len(players) == 0:
         return [[], []]
@@ -30,8 +30,8 @@ def generateTeams(players):
                 first_team.append(player)
             else:
                 second_team.append(player)
-        first_team_category = determineCategory(sum(p.weight for p in first_team) / len(first_team))
-        second_team_category = determineCategory(sum(p.weight for p in second_team) / len(second_team))
+        first_team_category = determine_category(sum(p.weight for p in first_team) / len(first_team))
+        second_team_category = determine_category(sum(p.weight for p in second_team) / len(second_team))
         if first_team_category == second_team_category:
             correct_setup.append([first_team, second_team])
         i = i + 1
@@ -51,6 +51,5 @@ def generateTeams(players):
         if experience_difference < best_experience_difference:
             best_experience_difference = experience_difference
             best_setup = combination
-
     return best_setup
 

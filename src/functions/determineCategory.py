@@ -1,6 +1,6 @@
 from classes import Category
 
-def determineCategory(weight):
+def determine_category(weight):
     if weight < 52:
         return Category.FLY
     elif 52 <= weight < 57:
