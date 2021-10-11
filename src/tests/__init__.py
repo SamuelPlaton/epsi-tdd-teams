@@ -1,1 +1,2 @@
-from .testGenerateTeams import TestGenerateTeams
+from .testMatch import MatchTestMethods
+from .testTeam import TeamTestMethods
