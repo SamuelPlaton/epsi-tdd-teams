@@ -1,0 +1,26 @@
+name: continuous-integration
+
+on:
+  pull_request:
+    branches:
+      - master
+  push:
+    branches:
+      - master
+jobs:
+  tests:
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Checkout files
+        uses: actions/checkout@v2
+      - name: Setup Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.x'
+      - name: Install faker
+        run: pip3 install faker
+      - name: Install numpy
+        run: pip3 install numpy
+      - name: Launch tests
+        run: python src/test.py
+
