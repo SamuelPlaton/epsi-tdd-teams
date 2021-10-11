@@ -1,27 +1,27 @@
-from classes.Match import Match
+from classes import Match
 from .fixtures import create_players
 from functions import determine_category
 
 import unittest
 
-##
-# name: TestGenerateTeams
-#
-# description :
-# Unit Tests of team generation
-##
+""" 
+name : TestMatch
+description: Test the Match class and it's methods
+"""
 class TestMatch(unittest.TestCase):
-    # Arrange our tests
     def setUp(self):
+        """Arrange our tests with random players"""
         self.players = create_players(40)
 
     def test_create_match(self):
+        """Create an empty match"""
         match = Match()
         self.assertEqual(type(match), Match, "created entity is not a Match")
         self.assertEqual(match.first_team, None, "first team must be Null")
         self.assertEqual(match.second_team, None, "second team must be Null")
 
     def test_generate_empty_teams(self):
+        """Setup empty teams in a match"""
         match = Match()
         # Assert on an empty list of players
         match.generate_teams([])
@@ -29,6 +29,7 @@ class TestMatch(unittest.TestCase):
         self.assertEqual(len(match.first_team), 0, "Teams must be empty")
 
     def test_generate_filled_teams(self):
+        """Setup balanced teams in a match"""
         match = Match()
         # Assert on a random list of 40 players
         match.generate_teams(self.players)

@@ -1,2 +1,9 @@
-from .testMatch import TestMatch
-from .testTeam import TestTeam
+"""
+Module : tests
+
+Description : Our application unit tests.
+
+"""
+
+from .test_match import TestMatch
+from .test_team import TestTeam

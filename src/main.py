@@ -1,3 +1,6 @@
+"""
+Our main file application.
+"""
 from classes import Match
 from classes import Player
 

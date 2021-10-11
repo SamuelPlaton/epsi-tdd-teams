@@ -1,3 +1,6 @@
+"""
+Our test file application.
+"""
 import unittest
 
 # Tests imports
