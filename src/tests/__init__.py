@@ -1,2 +1,2 @@
-from .testMatch import MatchTestMethods
-from .testTeam import TeamTestMethods
+from .testMatch import TestMatch
+from .testTeam import TestTeam

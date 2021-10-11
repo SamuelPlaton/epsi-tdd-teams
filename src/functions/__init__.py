@@ -1,3 +1,3 @@
-from .determineCategory import determineCategory
-from .generateTeams import generateTeams
+from .determineCategory import determine_category
+from .generateTeams import generate_teams
 
