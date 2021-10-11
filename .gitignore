@@ -1,2 +1,5 @@
 # IDE Files
 .idea
+
+# build files
+node_modules/
