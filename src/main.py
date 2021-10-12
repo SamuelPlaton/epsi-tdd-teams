@@ -18,7 +18,7 @@ if __name__ == '__main__':
     player2 = Player('2', 'John 2', 60, 5)
     match.generate_teams([player1, player2])
 
-"""
+
 from functions import generate_teams
 from classes import Player
 

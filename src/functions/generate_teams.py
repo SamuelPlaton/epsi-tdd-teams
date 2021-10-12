@@ -24,9 +24,10 @@ def generate_teams(players):
         for player in players:
             playersCopy.append(player)
         combination = []
-        combination.append(team)
         for player in team:
             playersCopy.pop(playersCopy.index(player))
+        team = list(team)
+        combination.append(team)
         combination.append(playersCopy)
         teams.append(combination)
     
