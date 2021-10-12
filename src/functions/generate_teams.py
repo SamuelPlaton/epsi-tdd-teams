@@ -18,7 +18,7 @@ def generate_teams(players):
 
     # Shuffle 1000 possibilities and retrieve correct setups
     i = 0
-    while i < 1000:
+    while i < 300:
         np.random.shuffle(players)
         # dispatch users
         for player in players:

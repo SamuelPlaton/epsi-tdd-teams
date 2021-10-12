@@ -31,7 +31,7 @@ class TestMatch(unittest.TestCase):
         self.assertEqual(match.first_team, None, "Match must not have teams")
         # Check that the game is prepared with players
         match.prepare_game(self.players)
-        self.assertEqual(match.status, MatchStatus.IN_PROGRESS, "Match must be in progress")
+        self.assertEqual(match.status, MatchStatus.PREPARATION, "Match must be in preparation")
         self.assertEqual(len(match.first_team) + len(match.second_team), len(self.players), "Match must have teams settled")
 
     def test_start_match(self):
@@ -53,7 +53,7 @@ class TestMatch(unittest.TestCase):
         self.assertEqual(match.status, MatchStatus.NOT_STARTED, "Match must be in progress before")
         match.prepare_game(self.players)
         match.end_game()
-        self.assertEqual(match.status, MatchStatus.IN_PROGRESS, "Match must be in progress before")
+        self.assertEqual(match.status, MatchStatus.PREPARATION, "Match must be in progress before")
         match.start_game()
         match.end_game()
         self.assertEqual(match.status, MatchStatus.FINISHED, "Match must be finished")
@@ -78,7 +78,7 @@ class TestMatch(unittest.TestCase):
         """Add a player and make sure he is added to the most convenient team"""
         # Check that the added player is prioritized depending on the teams sizes
         inequal_match = Match()
-        inequal_match.prepare_game([self.players[0], self.players[1], self.players[2]])
+        inequal_match.prepare_game([Player('1', 'A', 65, 80), Player('2', 'B', 68, 20), Player('3', 'C', 68, 20)])
         self.assertNotEqual(len(inequal_match.first_team), len(inequal_match.second_team), "Teams must not be the same size")
         inequal_match.add_player(self.player)
         self.assertEqual(len(inequal_match.first_team), len(inequal_match.second_team), "Teams must now be the same size")
@@ -101,7 +101,6 @@ class TestMatch(unittest.TestCase):
         # Check now that a new player is added to the less experimented team
         first_team_experience = sum(p.weight for p in match.first_team)
         second_team_experience = sum(p.weight for p in match.second_team)
-        less_experimented_team = "0"
         if first_team_experience < second_team_experience:
             less_experimented_team = "1"
         else:
