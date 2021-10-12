@@ -62,10 +62,10 @@ class Match:
         # add player in team depending on the team size
         if len(self.first_team.players) < len(self.second_team.players):
             self.first_team.append_player(player)
-            return True
+            return self.first_team.name
         elif len(self.first_team.players) > len(self.second_team.players):
             self.second_team.append_player(player)
-            return True
+            return self.second_team.name
         # if teams have the same sizes, add player in team depending on the categories changes
         team_1_category = determine_category(sum(p.weight for p in self.first_team.players) / len(self.first_team.players))
         team_2_category = determine_category(sum(p.weight for p in self.second_team.players) / len(self.second_team.players))
@@ -73,19 +73,19 @@ class Match:
         team_2_new_category = determine_category((sum(p.weight for p in self.second_team.players) + player.weight) / (len(self.second_team.players) + 1))
         if team_1_category != team_1_new_category:
             self.second_team.append_player(player)
-            return True
+            return self.second_team.name
         elif team_2_category != team_2_new_category:
             self.first_team.append_player(player)
-            return True
+            return self.first_team.name
         # if categories does not change, add player in team depending on the experience
         team_1_experience = sum(p.weight for p in self.first_team.players)
         team_2_experience = sum(p.weight for p in self.second_team.players)
         if (team_1_experience < team_2_experience):
             self.first_team.append_player(player)
-            return True
+            return self.first_team.name
         else:
             self.second_team.append_player(player)
-            return True
+            return self.second_team.name
 
 
 

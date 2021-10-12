@@ -1,5 +1,5 @@
 from classes import Team
-from .fixtures import create_player
+from tests.fixtures import create_player
 
 import unittest
 

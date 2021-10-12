@@ -34,7 +34,6 @@ def generate_teams(players):
     # delete second half of teams array, to ensure non-duplication of matchups
     del teams[:int(len(teams)/2)]
 
-
     # divide all teams from their bynome group, and checks for weight category correspondance
     for matchup in teams:
         first_team = matchup[0]
@@ -45,7 +44,6 @@ def generate_teams(players):
             correct_setup.append([first_team, second_team])
         first_team = []
         second_team = []
-
 
     # setup vars for experience comparison
     best_experience_difference = 100

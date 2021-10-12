@@ -1,6 +1,6 @@
 from classes import Match, MatchStatus, Player
-from .fixtures import create_player, create_players
-from .helpers import compare_teams_weight
+from tests.fixtures import create_player, create_players
+from tests.helpers import compare_teams_weight
 
 import unittest
 
@@ -39,11 +39,11 @@ class TestMatch(unittest.TestCase):
         """Start a match"""
         match = Match()
         # Check that a match must be prepared before
-        match.start_game()
+        match.process_game()
         self.assertEqual(match.status, MatchStatus.NOT_STARTED, "Match must be prepared before")
         # Check that the match is in progress
         match.prepare_game(self.players)
-        match.start_game()
+        match.process_game()
         self.assertEqual(match.status, MatchStatus.IN_PROGRESS, "Match must be in progress")
 
     def test_end_game(self):
@@ -55,7 +55,7 @@ class TestMatch(unittest.TestCase):
         match.prepare_game(self.players)
         match.end_game()
         self.assertEqual(match.status, MatchStatus.PREPARATION, "Match must be in progress before")
-        match.start_game()
+        match.process_game()
         match.end_game()
         self.assertEqual(match.status, MatchStatus.FINISHED, "Match must be finished")
 
@@ -64,25 +64,14 @@ class TestMatch(unittest.TestCase):
         match = Match()
         # Assert on an empty list of players
         match.generate_teams([])
-        self.assertEqual(len(match.first_team), len(match.second_team), "Both teams must have the same size")
-        self.assertEqual(len(match.first_team), 0, "Teams must be empty")
-
-    def test_generate_filled_teams(self):
-        """Setup balanced teams in a match"""
-        match = Match()
-        
+        self.assertEqual(len(match.first_team.players), len(match.second_team.players),
+                         "Both teams must have the same size")
+        self.assertEqual(len(match.first_team.players), 0, "Teams must be empty")
         # Assert on a random list of 20 players
         match.generate_teams(self.players)
-        self.assertEqual(len(match.first_team), len(match.second_team), "Both teams must have the same size")
-        self.assertEqual(len(match.first_team), int(len(self.players)/2), "Each team must have half of the players")
-        self.assertEqual(len(match.first_team) + len(match.second_team), len(self.players), "Each player must be in a team")
         self.assertEqual(len(match.first_team.players), len(match.second_team.players), "Both teams must have the same size")
-        self.assertEqual(len(match.first_team.players), 0, "Teams must be empty")
-        # Assert on a random list of 40 players
-        match.generate_teams(self.players)
-        self.assertEqual(len(match.first_team.players), len(match.second_team.players), "Both teams must have the same size")
-        self.assertEqual(len(match.first_team.players), int(len(self.players)/2), "Each team must have half of the players")
         self.assertEqual(len(match.first_team.players) + len(match.second_team.players), len(self.players), "Each player must be in a team")
+
 
         # Assert that they are on the same category
         self.assertTrue(compare_teams_weight(match.first_team, match.second_team), "Teams average must be in the same category")

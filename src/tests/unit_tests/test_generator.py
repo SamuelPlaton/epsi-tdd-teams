@@ -26,5 +26,5 @@ class testGenerator(unittest.TestCase):
 
     def test_count_player_generated(self):
         """Test number of generated items"""
-        #assert if the 20 player from the test list have een generated
+        #assert if the 20 player from the test list have been generated
         self.assertEqual(self.generator.count_player_list(), 20, 'The list need to generate all the players')
