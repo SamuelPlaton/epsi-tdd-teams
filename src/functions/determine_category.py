@@ -1,6 +1,12 @@
 from classes import Category
 
-def determineCategory(weight):
+def determine_category(weight):
+    """determine_category
+    Return a category depending on a weight given.
+    :parameter  weight   A weight in kg (float)
+    :return     a category Enum
+    :exception  TypeError   If nor a float or int given
+    """
     if weight < 52:
         return Category.FLY
     elif 52 <= weight < 57:

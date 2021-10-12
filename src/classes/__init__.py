@@ -1,4 +1,11 @@
-from .Category import Category
-from .Player import Player
-from .Team import Team
-from .Match import Match
+"""
+Module : classes
+
+Description : Contains our classes and enums
+
+"""
+from .category import Category
+from .player import Player
+from .team import Team
+from .match import Match
+from .Generator import Generator

@@ -1,3 +1,9 @@
+"""
+Enum : Category
+
+Description : The enum of our different player weight categories
+
+"""
 from enum import Enum
 
 class Category(Enum):
