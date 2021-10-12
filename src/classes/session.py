@@ -40,6 +40,8 @@ class Session:
             self.greetings()
             # retrieve players from csv
             players = self.retrieve_players()
+            print('PLAYERS')
+            print(players)
             print('\nQuels joueurs souhaitez-vous sélectionner ?')
             # Display them
             print('\nVoici les joueurs disponibles :')
@@ -51,7 +53,7 @@ class Session:
             int_list_indexes = []
             for index in list_indexes:
                 int_list_indexes.append(int(index))
-            self.prepare_players(int_list_indexes)
+            self.prepare_players(players, int_list_indexes)
             self.process_game()
 
     def greetings(self):
@@ -61,7 +63,7 @@ class Session:
         print('\nBienvenue dans le generateur de match\n')
         start = "n"
         while start != "o":
-            start = self.input('Souhaitez-vous demarrer ? o/n\n')
+            start = input('Souhaitez-vous demarrer ? o/n\n')
 
     def retrieve_players(self, file = './public/data.csv'):
         """ retrieve_players
@@ -124,22 +126,24 @@ class Session:
             self.status = SessionStatus.OFF
         return command
 
-    def add_player(self, name, weight):
+    def add_player(self, name, weight, experience = 0):
         """ add_player
         Add a player to the current game
-        :parameter name     The player name
-        :parameter weight   The player weight (int)
+        :parameter name         The player name
+        :parameter weight       The player weight (int)
+        :parameter experience   The player experience in years (int) (optional)
         """
-        team_added = self.match.add_player(Player('', name, weight, 0))
+        team_added = self.match.add_player(Player('', name, weight, experience))
         print("Joueur ajoute a l'equipe ", team_added, '\n')
 
-    def add_pending_player(self, name, weight):
+    def add_pending_player(self, name, weight, experience = 0):
         """ add_player
         Add a player for the next game
         :parameter name     The player name
         :parameter weight   The player weight (int)
+        :parameter experience   The player experience in years (int) (optional)
         """
-        self.pending_players.append(Player('', name, weight, 0))
+        self.pending_players.append(Player('', name, weight, experience))
         print("Joueur ajoute pour la prochaine partie\n")
 
     def display_team(self, team):
