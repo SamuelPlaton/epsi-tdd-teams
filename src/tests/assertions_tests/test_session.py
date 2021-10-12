@@ -69,4 +69,26 @@ class TestSession(unittest.TestCase):
         self.assertEqual(self.session.match.status, MatchStatus.FINISHED, "The actual match should be ended")
         self.assertEqual(len(self.session.past_matches), 1, "There should be one past match.")
 
-
+    
+    def test_match_add_player_experience(self):
+        """Test to add a player to the less experienced team
+        Act: We try to add a player to a match
+        Assert : The added player should end up in less experienced group
+        """
+        # Retrieve players of same average weigth category but different experience
+        # We setup our match
+        players = self.session.retrieve_players('./src/tests/fixtures/dataTest.csv')
+        self.session.prepare_players(players, [])
+        # We then start the match
+        self.session.match.start_game()
+        # John doe 66kg and 10 years of experience
+        # Erik Carlsberg 68kg and 3 years of experience
+        self.session.add_player('John Doe', 66, 10)
+        self.session.add_player('Erik Carlsberg', 68, 3)
+        # We add a player Test User with 6 years of experience during the match
+        self.session.add_player('Test User', 76, 6)
+        # We check that the second team is longer due to Test User being added to the less experienced team
+        self.assertEqual(len(self.session.match.first_team.players), 1, "first team should possess one member")
+        self.assertEqual(len(self.session.match.second_team.players), 2, "Second team should possess two members")
+        self.assertEqual(self.session.match.first_team.players[0].name, "John Doe", "John Doe should be in the first team")
+        self.assertEqual(self.session.match.second_team.players[1].name, "Test User", "The new user should be in the second team")
