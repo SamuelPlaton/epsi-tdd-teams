@@ -39,11 +39,11 @@ class TestMatch(unittest.TestCase):
         """Start a match"""
         match = Match()
         # Check that a match must be prepared before
-        match.process_game()
+        match.start_game()
         self.assertEqual(match.status, MatchStatus.NOT_STARTED, "Match must be prepared before")
         # Check that the match is in progress
         match.prepare_game(self.players)
-        match.process_game()
+        match.start_game()
         self.assertEqual(match.status, MatchStatus.IN_PROGRESS, "Match must be in progress")
 
     def test_end_game(self):
@@ -55,7 +55,7 @@ class TestMatch(unittest.TestCase):
         match.prepare_game(self.players)
         match.end_game()
         self.assertEqual(match.status, MatchStatus.PREPARATION, "Match must be in progress before")
-        match.process_game()
+        match.start_game()
         match.end_game()
         self.assertEqual(match.status, MatchStatus.FINISHED, "Match must be finished")
 
