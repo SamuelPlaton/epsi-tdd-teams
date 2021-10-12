@@ -26,10 +26,6 @@ class TestMatch(unittest.TestCase):
     def test_prepare_match(self):
         """Prepare a match"""
         match = Match()
-        # Check that we need to have players to start a game
-        match.prepare_game([])
-        self.assertEqual(match.status, MatchStatus.NOT_STARTED, "Match cannot be prepared with no players")
-        self.assertEqual(match.first_team, None, "Match must not have teams")
         # Check that the game is prepared with players
         match.prepare_game(self.players)
         self.assertEqual(match.status, MatchStatus.PREPARATION, "Match must be in preparation")

@@ -32,9 +32,8 @@ class Match:
         Prepare our game with the default players.
         :parameter an array of players, we must have at least 1 player at the beginning
         """
-        if len(players) > 0:
-            self.status = MatchStatus.PREPARATION
-            self.generate_teams(players)
+        self.status = MatchStatus.PREPARATION
+        self.generate_teams(players)
 
     def start_game(self):
         """ start_game
@@ -60,10 +59,10 @@ class Match:
         if self.status != MatchStatus.PREPARATION and self.status != MatchStatus.IN_PROGRESS:
             return False
         # add player in team depending on the team size
-        if len(self.first_team.players) < len(self.second_team.players):
+        if len(self.first_team.players) < len(self.second_team.players) or len(self.first_team.players) == 0 :
             self.first_team.append_player(player)
             return self.first_team.name
-        elif len(self.first_team.players) > len(self.second_team.players):
+        elif len(self.first_team.players) > len(self.second_team.players) or len(self.second_team.players) == 0:
             self.second_team.append_player(player)
             return self.second_team.name
         # if teams have the same sizes, add player in team depending on the categories changes
