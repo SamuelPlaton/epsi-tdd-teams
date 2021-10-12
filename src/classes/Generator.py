@@ -2,12 +2,12 @@ from csv import reader
 from classes import Player
 class  Generator:
     def __init__(self, file_path_csv):
-        self.filePathCsv = file_path_csv
+        self.file_path_csv = file_path_csv
         self.list = []
 
 
     def generate_players(self):
-        with open(self.filePathCsv, 'r') as read_obj:
+        with open(self.file_path_csv, 'r') as read_obj:
             csv_reader = reader(read_obj)
             pass_first_line=True
             i = 1
