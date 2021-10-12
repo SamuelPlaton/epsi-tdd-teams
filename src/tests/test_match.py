@@ -11,7 +11,8 @@ description: Test the Match class and it's methods
 class TestMatch(unittest.TestCase):
     def setUp(self):
         """Arrange our tests with random players"""
-        self.players = create_players(40)
+        
+        self.players = create_players(20)
         self.player = create_player()
 
     def test_create_match(self):
@@ -65,10 +66,15 @@ class TestMatch(unittest.TestCase):
         match.generate_teams([])
         self.assertEqual(len(match.first_team), len(match.second_team), "Both teams must have the same size")
         self.assertEqual(len(match.first_team), 0, "Teams must be empty")
-        # Assert on a random list of 40 players
+
+    def test_generate_filled_teams(self):
+        """Setup balanced teams in a match"""
+        match = Match()
+        
+        # Assert on a random list of 20 players
         match.generate_teams(self.players)
         self.assertEqual(len(match.first_team), len(match.second_team), "Both teams must have the same size")
-        self.assertEqual(len(match.first_team), 20, "Each team must have half of the players")
+        self.assertEqual(len(match.first_team), int(len(self.players)/2), "Each team must have half of the players")
         self.assertEqual(len(match.first_team) + len(match.second_team), len(self.players), "Each player must be in a team")
 
         # Assert that they are on the same category
