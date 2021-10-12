@@ -38,7 +38,20 @@ class Session:
         while self.status == SessionStatus.ON:
             self.match = Match()
             self.greetings()
-            self.prepare_players()
+            # retrieve players from csv
+            players = self.retrieve_players()
+            print('\nQuels joueurs souhaitez-vous sélectionner ?')
+            # Display them
+            print('\nVoici les joueurs disponibles :')
+            for index, player in enumerate(players):
+                print(index, ': ', player.name)
+            # Retrieve selected players indexes
+            string_indexes = input('*Entrez leur numeros au format 1,2,3 :\n')
+            list_indexes = string_indexes.split(',')
+            int_list_indexes = []
+            for index in list_indexes:
+                int_list_indexes.append(int(index))
+            self.prepare_players(int_list_indexes)
             self.process_game()
 
     def greetings(self):
@@ -48,41 +61,27 @@ class Session:
         print('\nBienvenue dans le generateur de match\n')
         start = "n"
         while start != "o":
-            start = self.greetings_input()
+            start = self.input('Souhaitez-vous demarrer ? o/n\n')
 
-    def greetings_input(self):
-        return input('Souhaitez-vous demarrer ? o/n\n')
-
-    def prepare_players(self):
-        """ prepare_players
+    def retrieve_players(self, file = './public/data.csv'):
+        """ retrieve_players
         Retrieve players from our CSV
-        Ask the user to select the ones he want
-        Add them to the next game with the pending players
         """
         # Retrieve players from our CSV file
-        generator = Generator('./public/data.csv')
+        generator = Generator(file)
+        return generator.generate_players()
 
-        players = generator.generate_players()
-        # Display them
-        print('\nVoici les joueurs disponibles :')
-        for index, player in enumerate(players):
-            print(index, ': ', player.name)
-        # Ask the user for which ones he is interested in
-        print('\nQuels joueurs souhaitez-vous sélectionner ?')
-        # Retrieve selected players indexes
-        string_indexes = self.prepare_players_input()
-        list_indexes = string_indexes.split(',')
-        int_list_indexes = []
-        for index in list_indexes:
-            int_list_indexes.append(int(index))
+    def prepare_players(self, players, inputs):
+        """ retrieve_players
+        Prepare players from an input list
+        :parameter players players list
+        :parameter inputs index list
+        """
         formatted_players = np.array(players)
-        selected_players = formatted_players[int_list_indexes]
+        selected_players = formatted_players[inputs]
         # Prepare the game with the selected players and the pending ones
         self.match.prepare_game([*selected_players, *self.pending_players])
         self.pending_players = []
-
-    def prepare_players_input(self):
-        return input('*Entrez leur numeros au format 1,2,3 :\n')
 
     def process_game(self):
         """ process_game
@@ -99,48 +98,49 @@ class Session:
             command = self.print_prompt()
 
     def print_prompt(self):
+        """ print_prompt
+        Display a prompt to the user
+        """
         print('1 ** Afficher les equipes')
         print('2 ** Ajouter un joueur a la partie en cours')
         print("3 ** Ajouter un joueur a la partie d'apres")
         print('4 ** Relancer une nouvelle partie')
         print('5 ** Fermer la session')
-        command = self.process_game_input()
+        command = input('\nEntrez une option : ')
         if command == '1':
             self.display_team(self.match.first_team)
             self.display_team(self.match.second_team)
         elif command == '2':
-            self.add_player()
+            name = input('\nVeuillez entrer un nom de joueur :\n')
+            weight = int(input('Veuillez entrer le poids du joueur :\n'))
+            self.add_player(name, weight)
         elif command == '3':
-            self.add_pending_player()
+            name = input('\nVeuillez entrer un nom de joueur :\n')
+            weight = int(input('Veuillez entrer le poids du joueur :\n'))
+            self.add_pending_player(name, weight)
         elif command == '4':
             self.end_game()
         elif command == '5':
             self.status = SessionStatus.OFF
         return command
 
-    def process_game_input(self):
-        return input('\nEntrez une option : ')
-
-    def add_player(self):
+    def add_player(self, name, weight):
         """ add_player
         Add a player to the current game
+        :parameter name     The player name
+        :parameter weight   The player weight (int)
         """
-        [name, weight] = self.add_player_input()
         team_added = self.match.add_player(Player('', name, weight, 0))
         print("Joueur ajoute a l'equipe ", team_added, '\n')
 
-    def add_pending_player(self):
+    def add_pending_player(self, name, weight):
         """ add_player
         Add a player for the next game
+        :parameter name     The player name
+        :parameter weight   The player weight (int)
         """
-        [name, weight] = self.add_player_input()
         self.pending_players.append(Player('', name, weight, 0))
         print("Joueur ajoute pour la prochaine partie\n")
-
-    def add_player_input(self):
-        name = input('\nVeuillez entrer un nom de joueur :\n')
-        weight = int(input('Veuillez entrer le poids du joueur :\n'))
-        return [name, weight]
 
     def display_team(self, team):
         """ display_team
