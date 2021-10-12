@@ -11,8 +11,8 @@ def compare_teams_weight(team_1, team_2):
     first_team_weight = sum(p.weight for p in team_1)
     second_team_weight = sum(p.weight for p in team_2)
     # Determine their category
-    first_team_category = determine_category(first_team_weight / len(team_1.first_team))
-    second_team_category = determine_category(second_team_weight / len(team_2.second_team))
+    first_team_category = determine_category(first_team_weight / len(team_1))
+    second_team_category = determine_category(second_team_weight / len(team_2))
     # Assert that they are on the same category
     if first_team_category == second_team_category:
         return True
