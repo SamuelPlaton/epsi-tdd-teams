@@ -20,15 +20,15 @@ def generate_teams(players):
     # generate all possible matchups with currently existing players
     teams = []
     for team in itertools.combinations(players, int(len(players)/2)):
-        playersCopy = []
+        players_copy = []
         for player in players:
-            playersCopy.append(player)
+            players_copy.append(player)
         combination = []
         for player in team:
-            playersCopy.pop(playersCopy.index(player))
+            players_copy.pop(players_copy.index(player))
         team = list(team)
         combination.append(team)
-        combination.append(playersCopy)
+        combination.append(players_copy)
         teams.append(combination)
     
     # delete second half of teams array, to ensure non-duplication of matchups
