@@ -1,4 +1,5 @@
 from functions import generate_teams, determine_category
+from .team import Team
 from enum import Enum
 
 """ Enum Match Status
@@ -59,31 +60,31 @@ class Match:
         if self.status != MatchStatus.PREPARATION and self.status != MatchStatus.IN_PROGRESS:
             return False
         # add player in team depending on the team size
-        if len(self.first_team) < len(self.second_team):
-            self.first_team.append(player)
+        if len(self.first_team.players) < len(self.second_team.players):
+            self.first_team.append_player(player)
             return True
-        elif len(self.first_team) > len(self.second_team):
-            self.second_team.append(player)
+        elif len(self.first_team.players) > len(self.second_team.players):
+            self.second_team.append_player(player)
             return True
         # if teams have the same sizes, add player in team depending on the categories changes
-        team_1_category = determine_category(sum(p.weight for p in self.first_team) / len(self.first_team))
-        team_2_category = determine_category(sum(p.weight for p in self.second_team) / len(self.second_team))
-        team_1_new_category = determine_category((sum(p.weight for p in self.first_team) + player.weight) / (len(self.first_team) + 1))
-        team_2_new_category = determine_category((sum(p.weight for p in self.second_team) + player.weight) / (len(self.second_team) + 1))
+        team_1_category = determine_category(sum(p.weight for p in self.first_team.players) / len(self.first_team.players))
+        team_2_category = determine_category(sum(p.weight for p in self.second_team.players) / len(self.second_team.players))
+        team_1_new_category = determine_category((sum(p.weight for p in self.first_team.players) + player.weight) / (len(self.first_team.players) + 1))
+        team_2_new_category = determine_category((sum(p.weight for p in self.second_team.players) + player.weight) / (len(self.second_team.players) + 1))
         if team_1_category != team_1_new_category:
-            self.second_team.append(player)
+            self.second_team.append_player(player)
             return True
         elif team_2_category != team_2_new_category:
-            self.first_team.append(player)
+            self.first_team.append_player(player)
             return True
         # if categories does not change, add player in team depending on the experience
-        team_1_experience = sum(p.weight for p in self.first_team)
-        team_2_experience = sum(p.weight for p in self.second_team)
+        team_1_experience = sum(p.weight for p in self.first_team.players)
+        team_2_experience = sum(p.weight for p in self.second_team.players)
         if (team_1_experience < team_2_experience):
-            self.first_team.append(player)
+            self.first_team.append_player(player)
             return True
         else:
-            self.second_team.append(player)
+            self.second_team.append_player(player)
             return True
 
 
@@ -93,6 +94,8 @@ class Match:
         Generate two balanced teams from players given in parameter and attribute then to the match teams.
         :parameter players An Array of players
         """
-        [first_team, second_team] = generate_teams(players)
+        [first_players, second_players] = generate_teams(players)
+        first_team = Team("1", first_players)
+        second_team = Team("2", second_players)
         self.first_team = first_team
         self.second_team = second_team

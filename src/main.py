@@ -4,16 +4,30 @@ Our main file application.
 
 from classes import Match, MatchStatus
 from classes import Player
+import numpy as np
 
 if __name__ == '__main__':
     match = Match()
     start = "n"
+    players = [Player('1', 'John', 65, 80), Player('2', 'David', 65, 80), Player('3', 'Erik', 65, 80)]
     while (match.status == MatchStatus.NOT_STARTED):
-        print('Bienvenue dans le générateur de match')
-        start = input('Souhaitez-vous démarrer ? o/n ')
-        if start == "o":
-            match.prepare_game()
-
-    player1 = Player('1', 'John', 60, 10)
-    player2 = Player('2', 'John 2', 60, 5)
-    match.generate_teams([player1, player2])
+        print('Bienvenue dans le generateur de match')
+        prepare = input('Souhaitez-vous demarrer ? o/n ')
+        if prepare == "o":
+            # Here retrieve players from CSV
+            print('Voici les joueurs disponibles :')
+            for index, player in enumerate(players):
+                print(index,': ', player.name)
+            print('Quels joueurs souhaitez-vous sélectionner ?')
+            # Retrieve selected players indexes
+            string_indexes = input('*Entrez leur numeros au format 1,2,3 : ');
+            list_indexes = string_indexes.split(',')
+            int_list_indexes = []
+            for index in list_indexes:
+                int_list_indexes.append(int(index))
+            formatted_players = np.array(players)
+            selected_players = formatted_players[int_list_indexes]
+            match.prepare_game(selected_players)
+        match.start_game()
+        print('La partie démarre !')
+        print("Voici la composition de l'équipe 1 :")
