@@ -29,5 +29,11 @@ if __name__ == '__main__':
             selected_players = formatted_players[int_list_indexes]
             match.prepare_game(selected_players)
         match.start_game()
-        print('La partie démarre !')
-        print("Voici la composition de l'équipe 1 :")
+        print('La partie demarre !')
+        print("Voici la composition de l'equipe ", match.first_team.name, ":")
+        for p in match.first_team.players:
+            print(p.name, p.weight, "kg", p.experience, "annees d'experience")
+        print("Voici la composition de l'equipe ", match.second_team.name, ":")
+        for p in match.second_team.players:
+            print(p.name, p.weight, "kg", p.experience, "annees d'experience")
+
