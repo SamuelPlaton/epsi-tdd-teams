@@ -1,5 +1,6 @@
 from .determine_category import determine_category
 import numpy as np
+import itertools
 
 def generate_teams(players):
     """generate_teams
@@ -16,21 +17,32 @@ def generate_teams(players):
     second_team = []
     correct_setup = []
 
-    # Shuffle 1000 possibilities and retrieve correct setups
-    i = 0
-    while i < 300:
-        np.random.shuffle(players)
-        # dispatch users
+    # generate all possible matchups with currently existing players
+    teams = []
+    for team in itertools.combinations(players, int(len(players)/2)):
+        playersCopy = []
         for player in players:
-            if len(first_team) <= len(second_team):
-                first_team.append(player)
-            else:
-                second_team.append(player)
+            playersCopy.append(player)
+        combination = []
+        for player in team:
+            playersCopy.pop(playersCopy.index(player))
+        team = list(team)
+        combination.append(team)
+        combination.append(playersCopy)
+        teams.append(combination)
+    
+    # delete second half of teams array, to ensure non-duplication of matchups
+    del teams[:int(len(teams)/2)]
+
+
+    # divide all teams from their bynome group, and checks for weight category correspondance
+    for matchup in teams:
+        first_team = matchup[0]
+        second_team = matchup[1]
         first_team_category = determine_category(sum(p.weight for p in first_team) / len(first_team))
         second_team_category = determine_category(sum(p.weight for p in second_team) / len(second_team))
         if first_team_category == second_team_category:
             correct_setup.append([first_team, second_team])
-        i = i + 1
         first_team = []
         second_team = []
 
@@ -48,4 +60,3 @@ def generate_teams(players):
             best_experience_difference = experience_difference
             best_setup = combination
     return best_setup
-
