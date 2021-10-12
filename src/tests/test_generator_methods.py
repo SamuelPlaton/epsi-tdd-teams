@@ -1,14 +1,16 @@
 import unittest
 from classes import Generator,Player
 
-class TestReaderMethods(unittest.TestCase):
-    generator = Generator('./src/tests/fixtures/dataTest.csv')
-    PlayerList = generator.generate_players()
 
-    def test_Player_generator_output_is_a_list(self):
+class test_generator_methods(unittest.TestCase):
+    def setUp(self):
+        self.generator = Generator('./src/tests/fixtures/dataTest.csv')
+        self.PlayerList = self.generator.generate_players()
+
+    def test_player_generator_output_is_a_list(self):
         self.assertEqual(isinstance(self.PlayerList,list), True, 'Function need to generate a list')
 
-    def test_Player_generator_output_is_a_Player_list(self):
+    def test_player_generator_output_is_a_player_list(self):
         only_player = True
         for elem in self.PlayerList:
             if type(elem) != Player:
