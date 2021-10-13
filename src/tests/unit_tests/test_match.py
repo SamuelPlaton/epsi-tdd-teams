@@ -1,6 +1,6 @@
 from classes import Match, MatchStatus, Player
-from .fixtures import create_player, create_players
-from .helpers import compare_teams_weight
+from tests.fixtures import create_player, create_players
+from tests.helpers import compare_teams_weight
 
 import unittest
 
@@ -11,7 +11,6 @@ description: Test the Match class and it's methods
 class TestMatch(unittest.TestCase):
     def setUp(self):
         """Arrange our tests with random players"""
-        
         self.players = create_players(20)
         self.player = create_player()
 
@@ -60,7 +59,8 @@ class TestMatch(unittest.TestCase):
         match = Match()
         # Assert on an empty list of players
         match.generate_teams([])
-        self.assertEqual(len(match.first_team.players), len(match.second_team.players), "Both teams must have the same size")
+        self.assertEqual(len(match.first_team.players), len(match.second_team.players),
+                         "Both teams must have the same size")
         self.assertEqual(len(match.first_team.players), 0, "Teams must be empty")
         # Assert on a random list of 20 players
         match.generate_teams(self.players)
@@ -112,8 +112,3 @@ class TestMatch(unittest.TestCase):
         else:
             self.assertTrue(sum(p.experience for p in match.second_team.players) > sum(p.experience for p in match.first_team.players),
                             "The team experience advantage must have switched")
-
-
-
-
-
