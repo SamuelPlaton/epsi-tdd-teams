@@ -8,11 +8,11 @@ def compare_teams_weight(team_1, team_2):
     :return     boolean
     """
     # Retrieve teams weight
-    first_team_weight = sum(p.weight for p in team_1)
-    second_team_weight = sum(p.weight for p in team_2)
+    first_team_weight = sum(p.weight for p in team_1.players)
+    second_team_weight = sum(p.weight for p in team_2.players)
     # Determine their category
-    first_team_category = determine_category(first_team_weight / len(team_1))
-    second_team_category = determine_category(second_team_weight / len(team_2))
+    first_team_category = determine_category(first_team_weight / len(team_1.players))
+    second_team_category = determine_category(second_team_weight / len(team_2.players))
     # Assert that they are on the same category
     if first_team_category == second_team_category:
         return True
