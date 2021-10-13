@@ -70,3 +70,20 @@ class TestSession(unittest.TestCase):
         self.assertEqual(len(self.session.past_matches), 1, "There should be one past match.")
 
 
+    def test_match_no_category(self):
+        """Test to create a match with non-matching weight categories
+        Act: We generate players with non-matching weight categories
+        Assert : The match should form teams with less possible difference of weight categories
+        """
+        # Setup our match
+        players = self.session.retrieve_players('./src/tests/fixtures/dataTest.csv')
+        self.session.prepare_players(players, [1,5,6,8])
+        self.session.match.start_game()
+        # We check the teams to see if their weight categories are different
+        self.assertFalse(compare_teams_weight(self.session.match.first_team, self.session.match.second_team),
+                        "Teams should not be in the same category")
+        # Teams should be Harrington Akeem-Patton Caleb and BLANC Louis-Green Jason
+        self.assertEqual(self.session.match.first_team.players[0].name, "Harrington Akeem", "Harrington Akeem should be in the first team")
+        self.assertEqual(self.session.match.first_team.players[1].name, "Patton Caleb", "Patton Caleb should be in the first team")
+        self.assertEqual(self.session.match.second_team.players[0].name, "BLANC Louis", "BLANC Louis should be in the first team")
+        self.assertEqual(self.session.match.second_team.players[1].name, "Green Jason", "Green Jason should be in the first team")
