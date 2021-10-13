@@ -5,12 +5,12 @@ Description: Our class team.
 
 """
 class Team:
-    def __init__(self, name):
+    def __init__(self, name, players = []):
         """ constructor
         Setup our team.
         """
         self.name = name
-        self.players = []
+        self.players = players
 
     def append_player(self, player):
         """ append_player

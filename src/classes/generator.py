@@ -1,5 +1,6 @@
 from csv import reader
 from classes import Player
+from datetime import datetime
 
 """
 Class: Generator
@@ -22,6 +23,7 @@ class  Generator:
         """ generate_players
         :return the player list generated from the csv.
         """
+        datenow = int(datetime.today().strftime('%Y'))
         with open(self.file_path_csv, 'r') as read_obj:
             csv_reader = reader(read_obj)
             pass_first_line=True
@@ -31,7 +33,7 @@ class  Generator:
                     pass_first_line=False
                 else:
                     elems=row[0].split(';')
-                    self.list.append(Player(i,elems[0]+" "+elems[1],elems[2],elems[3]))
+                    self.list.append(Player(i,elems[0]+" "+elems[1],int(elems[2]),datenow - int(elems[3])))
                     i += 1
         return self.list
 
