@@ -8,6 +8,8 @@ class Team:
     def __init__(self, name, players = []):
         """ constructor
         Setup our team.
+        :parameter name     The team name (string)
+        :parameter players  An array of players
         """
         self.name = name
         self.players = players
