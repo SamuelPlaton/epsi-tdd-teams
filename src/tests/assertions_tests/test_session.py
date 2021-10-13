@@ -24,7 +24,7 @@ class TestSession(unittest.TestCase):
         self.session.end_game()
         self.assertEqual(self.session.match.status, MatchStatus.FINISHED, "The actual match should be ended")
         self.assertEqual(len(self.session.past_matches), 1, "There should be one past match.")
-        
+
     def test_match_no_matching_category(self):
         """Test to create a match with non-matching weight categories
         Act: We generate players with non-matching weight categories
@@ -38,6 +38,37 @@ class TestSession(unittest.TestCase):
         self.assertFalse(compare_teams_weight(self.session.match.first_team, self.session.match.second_team),
                          "Teams should not be in the same category")
 
+    def test_match_add_pending_players (self):
+        """Test match add pending player
+        Act : We try to add a player for the next game.
+        Assert : The added player will be in a team for the next game
+        """
+        players = self.session.retrieve_players('./src/tests/fixtures/dataTest.csv')
+        self.session.prepare_players(players, [1, 2, 3, 4, 5, 6, 7, 8, 9, 10])
+        self.session.match.start_game()
+        first_team_before = self.session.match.first_team.players
+        second_team_before = self.session.match.second_team.players
+        self.session.add_pending_player('Pending User 1', 50)
+        self.session.add_pending_player('Pending User 2', 50)
+        # We check that players haven't been added to the current game
+        self.assertEqual(len(first_team_before), len(self.session.match.first_team.players),
+                         "Teams should have the same amount of players")
+        self.assertEqual(len(second_team_before), len(self.session.match.second_team.players),
+                         "Teams should have the same amount of players")
+        # Setup a new match
+        self.session.match.end_game()
+        self.session.prepare_players(players, [1, 2, 3, 4, 5, 6, 7, 8, 9,10])
+        self.session.match.start_game()
+        #Look if one of the two player have been added to one of the teams
+        first_user_found = False
+        second_user_found = False
+        for player in [*self.session.match.first_team.players, *self.session.match.second_team.players]:
+            if player.name == 'Pending User 1':
+                first_user_found = True
+            elif player.name == "Pending User 2":
+                second_user_found = True
+        self.assertTrue(first_user_found and second_user_found, 'Both users must have been foud')
+        
     def test_match_uneven_add_player(self):
         """Test match uneven add player
         Act : We try to add a player in a current game while teams are uneven.
